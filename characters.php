@@ -13,6 +13,15 @@ $characterDetails = [];
 
 $characters = json_decode($characters, true);
 
+if (isset($_GET['house'])) {
+    function filterByHouse($character) {
+        if (isset($character['house']) && strtolower($character['house']) == strtolower($_GET['house'])) {
+            return true;
+        }
+    }
+    $characters = array_filter($characters, "filterByHouse");
+}
+
 foreach ($characters as $character) {
     $characterDetails[] = [
         'name' => $character['name'],
@@ -60,7 +69,7 @@ include 'navbar.php';
                 <?php
                 $counter = 1;
                 foreach ($characterDetails as $detail):
-                    if (isset($_GET['house']) && $_GET['house'] == strtolower($detail['house'])) {
+                    // if (isset($_GET['house']) && $_GET['house'] == strtolower($detail['house'])) {
                 ?>
                         <tr>
                             <th scope="row"><?php echo $counter++; ?> </th>
@@ -71,7 +80,7 @@ include 'navbar.php';
                             <td><?php echo $detail['species']; ?></td>
                         </tr>
                 <?php
-                    }
+                    // }
                 endforeach;
                 ?>
                 </tbody>
